@@ -59,3 +59,15 @@ struct trap_frame {
         uint32_t __tmp = (value);                                              \
         __asm__ __volatile__("csrw " #reg ", %0" ::"r"(__tmp));                \
     } while (0)
+
+#define PROCS_MAX 8       // 최대 프로세스 개수
+
+#define PROC_UNUSED   0   // 사용되지 않는 프로세스 구조체
+#define PROC_RUNNABLE 1   // 실행 가능한(runnable) 프로세스
+
+struct process {
+    int pid;             // 프로세스 ID
+    int state;           // 프로세스 상태: PROC_UNUSED 또는 PROC_RUNNABLE
+    vaddr_t sp;          // 스택 포인터
+    uint8_t stack[8192]; // 커널 스택
+};
